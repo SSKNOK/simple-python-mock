@@ -1,0 +1,16 @@
+[
+    {
+        "method": "GET",
+        "path":"test",
+        "response": {
+            "messsage": "OK"
+        }   
+    },
+    {
+        "method": "POST",
+        "path":"test2",
+        "response": {
+            "messsage": "OKだよ"
+        }   
+    }
+]

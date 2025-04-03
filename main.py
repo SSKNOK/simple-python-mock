@@ -42,8 +42,8 @@ logger = logging.getLogger(__name__)
 ########################################################
 # レスポンスとなるJSON→辞書型変換
 f = open('./setting/responses.json', 'r', encoding="utf-8")
-root_json_dict = json.load(f)
-for i in root_json_dict:
+response_define_list = json.load(f)
+for i in response_define_list:
     logger.info(i)
 
 """
@@ -78,6 +78,7 @@ def index(path):
     # レスポンス取得処理
     ########################################################    
     #TODO: 受信したリクエスト内容からパスとメソッドをJSONファイルの値と突合して一致したものを返却する処理を書く
+    for response_define in response_define_list:
 
 
     return jsonify({"result": "OK"}), 200

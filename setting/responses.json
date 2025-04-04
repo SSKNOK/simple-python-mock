@@ -1,16 +1,22 @@
-[
-    {
+{
+    "test1": {
         "method": "GET",
-        "path":"test",
+        "path": "test",
         "response": {
-            "messsage": "OK"
-        }   
+            "status": 200,
+            "content": {
+                "message": "OK"
+            }
+        }
     },
-    {
-        "method": "POST",
-        "path":"test2",
+    "DEFAULT": {
+        "method": "DUMMY",
+        "path": "DUMMY",
         "response": {
-            "messsage": "OKだよ"
-        }   
+            "status": 500,
+            "content": {
+                "messsage": "Mock Server cannot find mock response."
+            }
+        }
     }
-]
+}

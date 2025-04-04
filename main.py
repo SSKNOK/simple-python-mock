@@ -15,7 +15,6 @@ app = Flask(__name__)
 stream_handler = StreamHandler()
 stream_handler.setLevel(INFO)
 stream_handler.setFormatter(Formatter("%(message)s"))
-
 # 保存先の有無チェック
 if not os.path.isdir('./log'):
     os.makedirs('./log', exist_ok=True)
@@ -40,11 +39,10 @@ logger = logging.getLogger(__name__)
 ########################################################
 # Mock Responseの読み込み
 ########################################################
-# レスポンスとなるJSON→辞書型変換
+# Mock Response JSON → 辞書型変換
 f = open('./setting/responses.json', 'r', encoding="utf-8")
-response_define_list = json.load(f)
-for i in response_define_list:
-    logger.info(i)
+mock_response_dict = json.load(f)
+
 
 """
 Controller
@@ -75,13 +73,12 @@ def index(path):
     logger.info("Finish.")
 
     ########################################################
-    # レスポンス取得処理
+    # レスポンス取得
     ########################################################    
     #TODO: 受信したリクエスト内容からパスとメソッドをJSONファイルの値と突合して一致したものを返却する処理を書く
-    for response_define in response_define_list:
-
-
+    
     return jsonify({"result": "OK"}), 200
+
 
 if __name__ == "__main__":
     # PORT 取得

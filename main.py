@@ -5,6 +5,14 @@ from datetime import datetime
 from logging import StreamHandler, FileHandler, Formatter
 from logging import INFO, DEBUG, NOTSET
 import json
+import re
+
+"""
+パス一致チェック（正規表現）
+"""
+def is_same_path(request_path, mock_path):
+    pattern = re.compile(mock_path)
+    return bool(pattern.match(request_path))
 
 app = Flask(__name__)
 
@@ -36,13 +44,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-########################################################
-# Mock Responseの読み込み
-########################################################
-# Mock Response JSON → 辞書型変換
-f = open('./setting/responses.json', 'r', encoding="utf-8")
-mock_response_dict = json.load(f)
-
 
 """
 Controller
@@ -54,7 +55,7 @@ def index(path):
     ########################################################
     # 受信内容出力
     ########################################################
-    logger.info("--- リクエスト受信 ----------------------------")
+    logger.info("--- リクエスト受信開始 ----------------------------")
     headers = request.headers
     method = request.method
     url = request.url
@@ -70,14 +71,28 @@ def index(path):
     logger.info("path   : {0}".format(path))
     logger.info("query  : " + str(query_param.to_dict()))
     logger.info("data   : {0}".format(data))
-    logger.info("Finish.")
+    logger.info("--- リクエスト受信終了 ----------------------------")
 
     ########################################################
-    # レスポンス取得
+    # モックレスポンスの取得
     ########################################################    
-    #TODO: 受信したリクエスト内容からパスとメソッドをJSONファイルの値と突合して一致したものを返却する処理を書く
-    
-    return jsonify({"result": "OK"}), 200
+    # テストを行いながらモックレスポンスを更新することを想定して、このタイミングでモックレスポンス定義ファイルを読み込む
+    f = open('./setting/responses.json', 'r', encoding="utf-8")
+    mock_response_dict = json.load(f)
+
+    # モックレスポンス定義ファイルから返却できるレスポンスを取得して返却
+    for key, value in mock_response_dict.items():
+        mock_method = value["method"] or ""
+        mock_path = value["method"] or ""
+        if (mock_method.lower() == method.lower()) & (is_same_path(path, mock_path)):
+            return jsonify(value["response"]["content"]), int(value["response"]["status"])
+
+    # 一致するレスポンスがない場合はデフォルトのレスポンスを返却
+    default_mock_response = mock_response_dict["DEFAULT"]
+    default_status= default_mock_response["response"]["status"]
+    default_content= default_mock_response["response"]["content"]
+    logger.warning("Mock Server cannot find response to return.")
+    return jsonify(default_content), int(default_status)
 
 
 if __name__ == "__main__":

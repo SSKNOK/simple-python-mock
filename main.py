@@ -51,7 +51,6 @@ Controller
 @app.route("/", defaults={"path":""}, methods=["GET", "POST", "PUT", "DELETE"])
 @app.route("/<path:path>", methods=["GET", "POST", "PUT", "DELETE"])
 def index(path):
-    
     ########################################################
     # 受信内容出力
     ########################################################

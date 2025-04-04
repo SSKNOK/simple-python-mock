@@ -1,11 +1,14 @@
 {
-    "test1": {
+    "sample": {
         "method": "GET",
-        "path": "test",
+        "path": "test/(.*)/(.*)",
         "response": {
             "status": 200,
-            "content": {
-                "message": "OK"
+            "body": {
+                "message": "sample",
+                "nestMessage": {
+                    "message": "OK"
+                }
             }
         }
     },
@@ -14,7 +17,7 @@
         "path": "DUMMY",
         "response": {
             "status": 500,
-            "content": {
+            "body": {
                 "messsage": "Mock Server cannot find mock response."
             }
         }

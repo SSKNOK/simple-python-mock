@@ -54,7 +54,7 @@ def index(path):
     ########################################################
     # 受信内容出力
     ########################################################
-    logger.info("--- リクエスト受信開始 ----------------------------")
+    logger.info("--- リクエスト受信 ----------------------------")
     headers = request.headers
     method = request.method
     url = request.url
@@ -70,7 +70,6 @@ def index(path):
     logger.info("path   : {0}".format(path))
     logger.info("query  : " + str(query_param.to_dict()))
     logger.info("data   : {0}".format(data))
-    logger.info("--- リクエスト受信終了 ----------------------------")
 
     ########################################################
     # モックレスポンスの取得
@@ -82,14 +81,14 @@ def index(path):
     # モックレスポンス定義ファイルから返却できるレスポンスを取得して返却
     for key, value in mock_response_dict.items():
         mock_method = value["method"] or ""
-        mock_path = value["method"] or ""
+        mock_path = value["path"] or ""
         if (mock_method.lower() == method.lower()) & (is_same_path(path, mock_path)):
-            return jsonify(value["response"]["content"]), int(value["response"]["status"])
+            return jsonify(value["response"]["body"]), int(value["response"]["status"])
 
     # 一致するレスポンスがない場合はデフォルトのレスポンスを返却
     default_mock_response = mock_response_dict["DEFAULT"]
     default_status= default_mock_response["response"]["status"]
-    default_content= default_mock_response["response"]["content"]
+    default_content= default_mock_response["response"]["body"]
     logger.warning("Mock Server cannot find response to return.")
     return jsonify(default_content), int(default_status)
 

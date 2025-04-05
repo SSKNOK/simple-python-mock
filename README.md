@@ -115,6 +115,6 @@ python main.py
 ## 改修したソースのビルド化
 `main.py`のあるフォルダで以下のコマンドを実行します。
 ```
-pyinstaller main.py --onefile
+pyinstaller main.py --onefile --icon=./icon/icon.ico
 ```
 - 上記コマンドで`dist`フォルダ配下にexeファイルが生成されます。

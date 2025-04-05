@@ -1,7 +1,7 @@
 {
     "sample": {
         "method": "GET",
-        "path": "test/(.*)/(.*)",
+        "path": "test/(.*)/sample",
         "response": {
             "status": 200,
             "body": {

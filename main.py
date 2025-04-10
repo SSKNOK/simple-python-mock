@@ -55,21 +55,24 @@ def index(path):
     # 受信内容出力
     ########################################################
     logger.info("--- リクエスト受信 ----------------------------")
-    headers = request.headers
-    method = request.method
-    url = request.url
-    query_param = request.args
-    data = None
-    if (method in ["POST", "PUT"]):
-        logger.info("request.is_json: {0}".format(request.is_json))
-        if (request.is_json):
-            data = request.get_json()
-    logger.info("headers: " + str(headers.to_wsgi_list()))
-    logger.info("method : {0}".format(method))
-    logger.info("url    : {0}".format(url))
-    logger.info("path   : {0}".format(path))
-    logger.info("query  : " + str(query_param.to_dict()))
-    logger.info("data   : {0}".format(data))
+    try:
+        headers = request.headers
+        method = request.method
+        url = request.url
+        query_param = request.args
+        data = None
+        if (method in ["POST", "PUT"]):
+            logger.info("request.is_json: {0}".format(request.is_json))
+            if (request.is_json):
+                data = request.get_json()
+        logger.info("headers: " + str(headers.to_wsgi_list()))
+        logger.info("method : {0}".format(method))
+        logger.info("url    : {0}".format(url))
+        logger.info("path   : {0}".format(path))
+        logger.info("query  : " + str(query_param.to_dict()))
+        logger.info("data   : {0}".format(data))
+    except:
+        logger.warning("ログ出力に失敗しました。")
 
     ########################################################
     # モックレスポンスの取得

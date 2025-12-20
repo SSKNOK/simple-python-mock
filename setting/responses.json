@@ -1,0 +1,25 @@
+{
+    "sample": {
+        "method": "GET",
+        "path": "test/(.*)/sample",
+        "response": {
+            "status": 200,
+            "body": {
+                "message": "sample",
+                "nestMessage": {
+                    "message": "OK"
+                }
+            }
+        }
+    },
+    "DEFAULT": {
+        "method": "DUMMY",
+        "path": "DUMMY",
+        "response": {
+            "status": 500,
+            "body": {
+                "messsage": "Mock Server cannot find mock response."
+            }
+        }
+    }
+}
